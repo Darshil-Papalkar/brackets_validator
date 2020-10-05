@@ -31,7 +31,7 @@ def bracket_counter(bracket:str, strip: Optional[bool] = False)-> bool:
             bracket = bracket.replace(pair,"")
     balanced = not bracket
     
-    return balanced
+    return f"{bracket} --> {balanced}"
 
 
 if __name__ == "__main__":
