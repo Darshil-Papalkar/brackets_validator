@@ -1,36 +1,37 @@
-def bracket_counter(bracket):
-    count = 0
-    count1 = 0
-    count2 = 0
-    for i in range(len(bracket)):
-        try:
-            if bracket[i] == "(" and (bracket[i + 1] != "}" and bracket[i + 1] != "]"):
-                count += 1
-            elif bracket[i] == ")":
-                if count != 0:
-                    count -= 1
-                else:
-                    return f"{bracket} --> False"
-            elif bracket[i] == "{" and (bracket[i + 1] != ")" and bracket[i + 1] != "]"):
-                count1 += 1
-            elif bracket[i] == "}":
-                if count1 != 0:
-                    count1 -= 1
-                else:
-                    return f"{bracket} --> False"
-            elif bracket[i] == "[" and (bracket[i + 1] != ")" and bracket[i + 1] != "}"):
-                count2 += 1
-            elif bracket[i] == "]":
-                if count2 != 0:
-                    count2 -= 1
-                else:
-                    return f"{bracket} --> False"
-        except Exception as e:
-            return f"{bracket} --> False"
-    if count == 0 and count1 == 0 and count2 == 0:
-        return f"{bracket} --> True"
-    else:
-        return f"{bracket} --> False"
+import re
+from typing import Optional
+
+
+def bracket_counter(bracket:str, strip: Optional[bool] = False)-> bool:
+    """Checks if a given sequence of brackets is balanced (i.e., brackets are balanced).
+
+    Bracktes taken into account are ()[]{}
+    Optionally strips non-bracket characters from the input string.
+
+    Parameters
+    ----------
+    bracket : str
+        The input string with brackets.
+    strip : Optional[bool], optional
+        Whether to strip all non-bracket characters from the input string , by default False
+
+    Returns
+    -------
+    bool
+        `True` if input is balanced, `False` if not.
+    """
+    brackets = ["()", "[]", "{}"]
+    
+    if strip:
+        strip_re = re.compile('[^\(\)\{\}\[\]]')
+        bracket = strip_re.sub('', bracket)
+    
+    while any(pair in bracket for pair in brackets):
+        for pair in brackets:
+            bracket = bracket.replace(pair,"")
+    balanced = not bracket
+    
+    return balanced
 
 
 if __name__ == "__main__":
